@@ -1,4 +1,4 @@
-# CME Kinematics and Space Weather Analysis Pipeline
+# CME kinematics and space weather analysis pipeline
 
 python toolkit for measuring and fitting the kinematics of coronal mass ejections (CMEs)
 from coronagraph position-time data
