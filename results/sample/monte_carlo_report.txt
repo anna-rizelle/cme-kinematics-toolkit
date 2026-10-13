@@ -1,0 +1,27 @@
+=== Monte Carlo uncertainty: SYN_CONST_001 ===
+Method: 2000 trials, independent Gaussian noise added to the measured positions, both models refit each time; seed = 12345.
+Position uncertainty: 0.030 R_sun (as supplied in the input data)
+Intervals are percentile intervals of the refitted values.
+  linear model:
+    r0_rsun            fit     3.000 R_sun;  MC std 0.018 (analytic 0.017);  68%: [2.984, 3.019];  95%: [2.967, 3.035]
+    velocity_km_s      fit   448.007 km/s;  MC std 2.830 (analytic 2.778);  68%: [445.039, 450.698];  95%: [442.430, 453.343]
+  quadratic model:
+    r0_rsun            fit     3.007 R_sun;  MC std 0.023 (analytic 0.023);  68%: [2.984, 3.030];  95%: [2.962, 3.053]
+    velocity_km_s      fit   443.459 km/s;  MC std 10.883 (analytic 10.731);  68%: [433.022, 454.143];  95%: [421.225, 465.279]
+    acceleration_m_s2  fit     1.275 m/s^2;  MC std 2.941 (analytic 2.906);  68%: [-1.625, 4.074];  95%: [-4.477, 7.159]
+Model preferred by AICc across trials: quadratic 2.6%, linear 83.8%, inconclusive 13.6%, not assessable 0.0%
+Scope: measurement noise only. Model error, systematic error, projection effects and correlated errors are not included. A preferred quadratic model means a curved path describes these points better; it does not show that the CME physically accelerates. Projection effects, leading-edge mis-identification, correlated errors and underestimated uncertainties can all produce apparent curvature.
+
+=== Monte Carlo uncertainty: SYN_ACCEL_001 ===
+Method: 2000 trials, independent Gaussian noise added to the measured positions, both models refit each time; seed = 12345.
+Position uncertainty: 0.030 R_sun (as supplied in the input data)
+Intervals are percentile intervals of the refitted values.
+  linear model:
+    r0_rsun            fit     2.895 R_sun;  MC std 0.018 (analytic 0.017);  68%: [2.878, 2.914];  95%: [2.861, 2.930]
+    velocity_km_s      fit   386.529 km/s;  MC std 2.830 (analytic 2.778);  68%: [383.561, 389.220];  95%: [380.952, 391.864]
+  quadratic model:
+    r0_rsun            fit     3.030 R_sun;  MC std 0.023 (analytic 0.023);  68%: [3.007, 3.053];  95%: [2.985, 3.076]
+    velocity_km_s      fit   292.105 km/s;  MC std 10.883 (analytic 10.731);  68%: [281.668, 302.789];  95%: [269.870, 313.925]
+    acceleration_m_s2  fit    26.470 m/s^2;  MC std 2.941 (analytic 2.906);  68%: [23.570, 29.269];  95%: [20.718, 32.353]
+Model preferred by AICc across trials: quadratic 100.0%, linear 0.0%, inconclusive 0.0%, not assessable 0.0%
+Scope: measurement noise only. Model error, systematic error, projection effects and correlated errors are not included. A preferred quadratic model means a curved path describes these points better; it does not show that the CME physically accelerates. Projection effects, leading-edge mis-identification, correlated errors and underestimated uncertainties can all produce apparent curvature.

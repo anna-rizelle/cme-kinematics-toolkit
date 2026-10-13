@@ -27,7 +27,8 @@ using SciPy and Matplotlib to chart propagation edge and calculate the plasma ki
 | linear (constant velocity) and quadratic (constant acceleration) fits | implemented |
 | model comparison (AICc, BIC) with cautions | implemented |
 | plots and CSV/text export | implemented |
-| monte carlo uncertainty analysis | planned |
+| Monte Carlo uncertainty analysis | implemented |
+| Acceleration sensitivity study (synthetic) | Implemented |
 | solar-wind / geomagnetic data retrieval (OMNI) | planned |
 | human-guided image measurement | planned |
 | CME / space-weather analysis | planned |
@@ -49,6 +50,8 @@ pip install -e ".[dev]"
 python scripts\make_sample_data.py
 python scripts\run_analysis.py data\sample\synthetic_cme_observations.csv --out-dir results\sample
 python -m pytest -v
+python scripts\run_monte_carlo.py data\sample\synthetic_cme_observations.csv --out-dir results\sample
+python scripts\run_sensitivity_study.py --out-dir results\sample
 ```
 
 ## input format
@@ -84,12 +87,40 @@ its CSV line number; nothing is silently dropped or reordered.
 - model comparison: AICc (difference of more than 2 counts as a preference), BIC reported. Not
   assessed below 5 points.
 
+## uncertainty quantification
+
+`scripts/run_monte_carlo.py` adds independent Gaussian noise (the stated per-point
+uncertainty) to the measured positions, refits both models thousands of times, and reports
+percentile intervals of velocity and acceleration, plus how often AICc prefers the quadratic model.
+
+- intervals describe how the fitted parameters move if the **measurement noise** is redrawn.
+- **not included:** model error, systematic error (e.g. consistent leading-edge bias),
+  projection effects, correlated errors.
+- uncertainties in the sample data are **illustrative assumptions**, not LASCO calibration values.
+  events without uncertainties are skipped unless `--assumed-sigma` is given, and any such value
+  is labelled as an assumption in all outputs.
+- because both models are linear in their parameters, the Monte Carlo spread matches the analytic
+  covariance (tested). fitted velocity and acceleration are strongly correlated.
+
+![Monte Carlo](results/sample/plots/SYN_ACCEL_001_monte_carlo.png)
+
+## acceleration sensitivity study (synthetic)
+
+`scripts/run_sensitivity_study.py` varies the position uncertainty, the number of points and the
+cadence for a synthetic trajectory with known acceleration. the uncertainty of the fitted
+acceleration scales linearly with the measurement uncertainty and falls roughly as the inverse
+square of the observation window. a quadratic model is only reliably preferred once the true
+acceleration is a few times larger than its fitted uncertainty. all parameters are assumptions.
+
+![study](results/sample/plots/acceleration_study.png)
+
 ## validation
 
 - synthetic trajectories with known velocity/acceleration are recovered to numerical precision.
 - fits agree with `scipy.optimize.curve_fit`.
-- monte carlo test: reported 1-sigma intervals cover the true value about 68% of the time.
+- Monte Carlo test: reported 1-sigma intervals cover the true value about 68% of the time.
 - model comparison rarely claims acceleration for constant-velocity data.
+- Monte Carlo spread matches the analytic covariance, and the exact scaling of acceleration uncertainty with noise and cadence is tested.
 - run `python -m pytest -v`.
 
 ## sample results
